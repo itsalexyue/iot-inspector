@@ -1,0 +1,72 @@
+##!/bin/sh
+
+run_it () {
+
+PREFIX="/usr/local"
+
+set -e
+set -u
+
+# Let's display everything on stderr.
+exec 1>&2
+
+UNAME=$(uname)
+# Check to see if OS is Raspbian
+if [ "$UNAME" != "Linux" ] ; then
+    echo "This installer script is only designed to be executed on Raspbian."
+    echo "Please run this script on a v3 Rasbperry Pi with Raspbian installed."
+    exit 1
+fi
+
+# Check that script is running under root
+if [ "$EUID" -ne 0 ] ; then
+    echo "This installer script must be run with sudo."
+    exit 1
+fi
+
+# Update the package manager and install base packages
+apt-get update --assume-yes
+# apt-get upgrade --assume-yes
+
+### STEP 1: Wi-Fi Setup ###
+apt-get install --assume-yes hostapd dnsmasq
+
+# Ignore wlan0 for dhcpcd
+echo "denyinterfaces wlan0" >> /etc/dhcpcd.conf
+
+mv ./config/interfaces /etc/network/interfaces
+
+# Restart wireless and the DHCP server
+service dhcpcd restart
+ifdown wlan0
+ifup wlan0
+
+mv ./config/hostapd.conf /etc/hostapd/hostapd.conf
+mv ./config/hostapd /etc/default/hostapd
+
+mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
+mv ./config/dnsmasq.conf /etc/dnsmasq.conf
+
+# Enable ipv4 forwarding
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
+
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
+
+# Save the iptables routing rules
+sh -c "iptables-save > /etc/iptables.ipv4.nat"
+
+mv ./config/rc.local /etc/rc.local
+
+service hostapd restart
+service dnsmasq restart
+
+### STEP 2: Dumpcap Setup ###
+apt-get install --assume-yes tshark python-pip # tshark includes dumpcap
+pip install scapy
+
+}
+
+run_it
