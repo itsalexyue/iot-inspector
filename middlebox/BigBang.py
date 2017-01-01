@@ -35,17 +35,24 @@ class BigBang:
                 mac_addr = pkt[Ether].src
                 self.mac_check(mac_addr)
 
-                if self.logging['DNS'].filter(pkt):
-                    self.logging['DNS'].handle_packet(pkt)
-                if self.logging['TCP'].filter(pkt):
-                    self.logging['TCP'].handle_packet(pkt)
-                if self.logging['Netflow'].filter(pkt):
-                    self.logging['Netflow'].handle_packet(pkt)
-        self.logging['Netflow'].print_data()
+                for logger_name in self.logging.iterkeys():
+                    if self.logging[logger_name].filter(pkt):
+                        self.logging[logger_name].handle_packet(pkt)
+                self.pkt_count += 1
+                if self.pkt_count % 1000 == 0:
+                    print self.pkt_count
+                    for logger_name in self.logging.iterkeys():
+                        self.logging[logger_name].flush_data()
 
-        self.logging['Netflow'].flush_data()
-        self.logging['DNS'].flush_data()
-        self.logging['TCP'].flush_data()
+                # if self.logging['DNS'].filter(pkt):
+                #     self.logging['DNS'].handle_packet(pkt)
+                # if self.logging['TCP'].filter(pkt):
+                #     self.logging['TCP'].handle_packet(pkt)
+                # if self.logging['Netflow'].filter(pkt):
+                #     self.logging['Netflow'].handle_packet(pkt)
+        self.logging['Netflow'].flush_data(done=True)
+        self.logging['DNS'].flush_data(done=True)
+        self.logging['TCP'].flush_data(done=True)
 
         # cap = pyshark.FileCapture(file_path)
         #
@@ -57,14 +64,14 @@ class BigBang:
         #     mac_addr = pkt.eth.addr
         #     self.mac_check(mac_addr)
         #
-        #     for logger_name in self.logging.iterkeys():
-        #         if self.logging[logger_name].filter(pkt):
-        #             self.logging[logger_name].handle_packet(pkt)
-        #     self.pkt_count += 1
-        #     if self.pkt_count % 1000 == 0:
-        #         print self.pkt_count
-        #         for logger_name in self.logging.iterkeys():
-        #             self.logging[logger_name].flush_data()
+            # for logger_name in self.logging.iterkeys():
+            #     if self.logging[logger_name].filter(pkt):
+            #         self.logging[logger_name].handle_packet(pkt)
+            # self.pkt_count += 1
+            # if self.pkt_count % 1000 == 0:
+            #     print self.pkt_count
+            #     for logger_name in self.logging.iterkeys():
+            #         self.logging[logger_name].flush_data()
         #         # self.logging['Netflow'].flush_data()
         #         # self.logging['TCP'].flush_data()
 
