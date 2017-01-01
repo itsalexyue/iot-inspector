@@ -1,1 +1,1 @@
-scapy
+need to run apt-get install python-dev to install pycrypto for scapy ssl
