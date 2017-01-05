@@ -18,7 +18,7 @@ class BigBang:
             'Netflow': loggers.Loggers.get_instance('Netflow')
         }
 
-        self.connection.traffic.tcp.create_index([("src", pymongo.TEXT), ("sport", pymongo.TEXT), ("dst", pymongo.TEXT), ("dport", pymongo.TEXT)])
+        # self.connection.traffic.tcp.create_index([("src", pymongo.TEXT), ("sport", pymongo.TEXT), ("dst", pymongo.TEXT), ("dport", pymongo.TEXT)])
         self.pkt_count = 0
         self.device_mac = set()
 

@@ -10,7 +10,7 @@ class DNSLogger:
         self.dns_queries = {}
         self.ip_mappings = {}
         self.processed_time = 0
-        self.db.dns.create_indexes([pymongo.IndexModel([("response.ip", pymongo.ASCENDING)])])
+        # self.db.dns.create_indexes([pymongo.IndexModel([("response.ip", pymongo.ASCENDING)])])
 
     def handle_packet(self, pkt):
         packet_unix_time = int(pkt.time)

@@ -41,6 +41,10 @@ class FolderWatcher:
             path = os.path.join(self.folder, file_name)
             last_modified_time = os.path.getmtime(path)
 
+            # don't update if file is still being written to
+            if time.time() - last_modified_time < 12:
+                continue
+
             # don't add file to updated_files if it hasn't been modified from the last run
             if path in self._files_list and last_modified_time <= self._files_list[path]:
                 continue
@@ -67,7 +71,7 @@ def signal_handler(signal, frame):
     sys.exit(0)
 signal.signal(signal.SIGINT, signal_handler)
 
-f = FolderWatcher("./loggers", b.handle_pcap, filter="pcap")
+f = FolderWatcher(sys.argv[1], b.handle_pcap, filter="pcap")
 try:
     f.loop()
 except KeyboardInterrupt:

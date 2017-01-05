@@ -18,5 +18,8 @@ if [ "$_IP" ]; then
 fi
 
 iptables-restore < /etc/iptables.ipv4.nat
+( node /home/pi/iot-inspector/web/bin/www )
+( dumpcap -P -i wlan0 -w /home/res.pcap -b duration:10 -b files:128 )
+( python /home/pi/iot-inspector/middlebox/FolderWatcher.py /home )
 
 exit 0
