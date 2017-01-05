@@ -1,4 +1,4 @@
-##!/bin/sh
+#!/usr/bin/env bash
 
 run_it () {
 
@@ -25,6 +25,10 @@ if [ "$EUID" -ne 0 ] ; then
 fi
 
 export DEBIAN_FRONTEND=noninteractive
+
+# All relative paths are relative to SCRIPT location
+parent_path=$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )
+cd "$parent_path"
 
 # Update the package manager and install base packages
 apt-get update --assume-yes
@@ -90,8 +94,14 @@ service dnsmasq restart
 # update-rc.d isc-dhcp-server enable
 
 ## STEP 2: Dumpcap Setup ###
-apt-get install --assume-yes tshark python-pip mongodb-server # tshark includes dumpcap
-pip install scapy
+apt-get install --assume-yes tshark python-pip mongodb-server  # tshark includes dumpcap
+pip install -r ../middlebox/requirements.txt
+
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+
+
 
 # update-rc.d mongod enable
 

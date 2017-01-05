@@ -7,12 +7,35 @@ import Hero from './features/hero/Hero';
 
 import NetflowInterface from './features/visualizations/netflow/NetflowInterface';
 import TCPInterface from './features/visualizations/tcp/TCPInterface';
+import TCPStreamInterface from './features/visualizations/tcp_stream/TCPStreamInterface';
+import DNSInterface from './features/visualizations/dns/DNSInterface';
+
 
 render((
   <Router history={browserHistory}>
-    <Route path="/" component={GlobalLayout} >
-      <IndexRoute component={TCPInterface} />
+    <Route path="/" component={GlobalLayout}>
       <Route path="tcp" component={TCPInterface} />
+      <Route path="tcp/view/:id" component={TCPInterface} />
+      <Route path="dns" component={DNSInterface} />
+      <Route path="dns/view/:id" component={DNSInterface} />
+      <Route path="netflow" component={NetflowInterface} />
     </Route>
   </Router>
 ), document.getElementById('app'));
+
+
+// render((
+//   <Router history={browserHistory}>
+//     <Route path="/" component={GlobalLayout} >
+//       <IndexRoute component={DNSInterface} />
+//       <Route path="tcp" component={TCPInterface} >
+//         <Route path="/:tcpKey" component={TCPStreamInterface} />
+//       </Route>
+//       <Route path="tcpstream/:tcpKey" component={TCPStreamInterface} />
+//       <Route path="dns">
+//         <IndexRoute component={DNSInterface} />
+//         <Route path="/view/:id" component={DNSInterface} />
+//       </Route>
+//     </Route>
+//   </Router>
+// ), document.getElementById('app'));

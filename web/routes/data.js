@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
+var mongo = require('mongodb');
 
 var db = require('../db');
-
 const collectionNames = ['tcp', 'netflow', 'dns'];
 
 /* GET home page. */
@@ -56,9 +56,17 @@ router.get('/tcp', (req, res, next) => {
   if (end) selectors['time.start']['$lte'] = end;
 
   db.get('tcp')
-    .find(selectors, {'src': true, 'srcport': true, 'dst': true, 'dstport': true, 'traffic': true, 'mac': true, 'time': true})
+    .find(selectors)
     .toArray((err, docs) => {
       if (err) return next(err);
+
+      res.json(docs);
+
+      return;
+
+      // split into ssl and non ssl stream information
+
+
 
       let ipSet = new Set(), tcpDocs = docs;
       docs.forEach(doc => {
@@ -84,6 +92,46 @@ router.get('/tcp', (req, res, next) => {
 
           res.json(tcpDocs);
         });
+    });
+});
+
+router.get('/tcp/:tcpDocId', (req, res, next) => {
+  let tcpDocId = req.params.tcpDocId;
+  console.log(tcpDocId);
+
+  db.get('tcp')
+    .find({_id: new mongo.ObjectID(tcpDocId)})
+    .toArray((err, docs) => {
+      if (err) return next(err);
+
+      res.json(docs);
+    });
+});
+
+router.get('/dns', (req, res, next) => {
+  let start = req.query.start, end = req.query.end, selectors = {};
+
+  if (start || end) selectors['time'] = {};
+  if (start) selectors['time.end']['$gte'] = start;
+  if (end) selectors['time.start']['$lte'] = end;
+
+  db.get('dns')
+    .find(selectors)
+    .toArray((err, docs) => {
+      if (err) return next(err);
+
+      res.json(docs);
+    });
+});
+
+router.get('/dns/:id', (req, res, next) => {
+  let id = req.params.id;
+
+  db.get('dns')
+    .findOne({_id: new mongo.ObjectID(id)}, (err, doc) => {
+      if (err) return next(err);
+
+      res.json(doc);
     });
 });
 

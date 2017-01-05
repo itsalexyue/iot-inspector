@@ -14,7 +14,11 @@ export default class TCPInterface extends React.Component {
   }
 
   componentDidMount() {
-    $.getJSON('/api/tcp')
+    let fetchUrl = '/api/tcp';
+    if (this.props.params.id)
+      fetchUrl += '/' + this.props.params.id;
+
+    $.getJSON(fetchUrl)
       .then(data => this.setState({ data }));
   }
 

@@ -25,7 +25,8 @@ class DNSLogger:
                 'sport': pkt[UDP].sport,
                 'dst': pkt[IP].dst,
                 'dport': pkt[UDP].dport,
-                'mac': pkt[Ether].src
+                'mac': pkt[Ether].src,
+                'time': pkt.time
             }
             self.dns_queries[dns_key] = data
         data = self.dns_queries[dns_key]

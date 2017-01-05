@@ -1,5 +1,7 @@
 import React from 'react';
 import { Row, Column, Alignments } from 'react-foundation';
+
+import Sidebar from '../sidebar/Sidebar';
 // import Header from './Header.jsx';
 // import Footer from './Footer.jsx';
 
@@ -12,11 +14,14 @@ class GlobalLayout extends React.Component {
 
   render() {
     return (
-      <div>
-        {/*<Header />*/}
-        { this.props.children }
-        {/*<Footer />*/}
-      </div>
+      <Row>
+        <Column large={2}>
+          <Sidebar />
+        </Column>
+        <Column large={10}>
+          { this.props.children }
+        </Column>
+      </Row>
     );
   }
 }
