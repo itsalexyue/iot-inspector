@@ -1,13 +1,6 @@
-config==0.3.9
-futures==3.0.5
-Logbook==1.0.0
-lxml==3.6.4
-mongoengine==0.10.6
-netifaces==0.10.5
-pcapy==0.10.10
-py==1.4.31
+pycrypto==2.6.1
 pymongo==3.4.0
-pyshark==0.3.6.1
-scapy==2.3.3
-trollius==1.0.4
+scapy==2.3.2
+scapy-ssl-tls==1.2.3.1
+tinyec==0.3.1
 wheel==0.24.0

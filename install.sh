@@ -94,7 +94,7 @@ service dnsmasq restart
 # update-rc.d isc-dhcp-server enable
 
 ## STEP 2: Dumpcap Setup ###
-apt-get install --assume-yes tshark python-pip mongodb-server python-lxml python-dev libxml2 libxslt build-essential # tshark includes dumpcap
+apt-get install --assume-yes tshark python-pip mongodb-server python-lxml libpcap-dev python-dev libxslt-dev libxml2-dev build-essential # tshark includes dumpcap
 pip install -r middlebox/requirements.txt
 
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
