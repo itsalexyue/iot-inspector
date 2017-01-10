@@ -14,7 +14,7 @@ class GlobalLayout extends React.Component {
 
   render() {
     return (
-      <Row>
+      <Row style={{maxWidth: 'none'}}>
         <Column large={2}>
           <Sidebar />
         </Column>

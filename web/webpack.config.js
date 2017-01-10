@@ -36,16 +36,13 @@ module.exports = {
       }, {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract("style-loader" ,"css-loader"),
-      }, {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader"),
       }]
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       inject: false,
-      title: 'QueryBase',
+      title: 'Web Page',
       template: path.join(__dirname, './views/webpack.handlebars')
     })
   ]

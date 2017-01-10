@@ -14,12 +14,14 @@ export default class DNSTable extends React.Component {
     data.forEach(entry => {
       let row = [
         entry.time,
-        entry.src,
-        entry.dst,
-        entry.query.map(v => v.name).join(', '),
-        entry.an.map(v => v.data).join(', '),
-        unsafe('<a href="/dns/view/'+entry._id+'" target="_blank">View</a>')
+        entry.traffic.up.bytes,
+        entry.traffic.up.count,
+        entry.traffic.down.bytes,
+        entry.traffic.down.count
       ];
+
+      if (entry.types)
+        row.push(entry.types.join(', '));
 
       rows.push(row);
     });
@@ -35,19 +37,19 @@ export default class DNSTable extends React.Component {
           <strong className="age-header">Time</strong>
         </Th>
         <Th column="1">
-          <strong className="name-header">SRC IP</strong>
+          <strong className="name-header">Bytes Up</strong>
         </Th>
         <Th column="2">
-          <em className="age-header">DST IP</em>
+          <em className="age-header">Packet Count Up</em>
         </Th>
         <Th column="3">
-          <em className="age-header">Query Name</em>
+          <em className="age-header">Bytes Down</em>
         </Th>
         <Th column="4">
-          <em className="age-header">Resolved IPs</em>
+          <em className="age-header">Packet Count Down</em>
         </Th>
         <Th column="5">
-          <em className="age-header">Entry View</em>
+          <em className="age-header">Packet Types</em>
         </Th>
         </Thead>
       </Table>

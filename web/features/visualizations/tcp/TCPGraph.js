@@ -1,35 +1,7 @@
 import React from 'react';
-import { Charts, ChartContainer, ChartRow, YAxis, LineChart, AreaChart, Legend, styler } from "react-timeseries-charts";
+import { Charts, ChartContainer, ChartRow, YAxis, BarChart, AreaChart, Legend, styler } from "react-timeseries-charts";
 import { Index, TimeSeries } from "pondjs";
 import { Row, Column, Alignments } from 'react-foundation';
-
-// Data
-const rawData = require("./stacked.json");
-// console.log(rawData);
-const numPoints = rawData[0].values.length;
-const columnNames = rawData.map(d => d.key);
-
-//
-// Process out data into a TimeSeries
-//
-
-// const name = "series";
-// const columns = ["time", ...columnNames];
-// const points = [];
-//
-// for (let i = 0; i < numPoints; i++) {
-//   const t = rawData[0].values[i][0];
-//   const point = [t];
-//   rawData.forEach(d => {
-//     point.push(d.values[i][1]);
-//   });
-//   points.push(point);
-// }
-// const dfsfd = points;
-//
-// console.log(points);
-//
-// const series = new TimeSeries({name, columns, points});
 
 export default class TCPGraph extends React.Component {
   constructor(props) {
@@ -96,34 +68,29 @@ export default class TCPGraph extends React.Component {
   calculateTimeSeries = (data) => {
     let timePoints = {};
     data.forEach(tcpStream => {
-      console.log(tcpStream);
       Object.keys(tcpStream.traffic).forEach(time => {
         if (!timePoints[time]) {
-          timePoints[time] = [time, 0, 0, 0, 0]; // unix_time, ssl_bytes_up, ssl_bytes_down, non_ssl_bytes_up, non_ssl_bytes_down
+          timePoints[time] = [`1s-`+time, 0, 0, 0, 0]; // unix_time, ssl_bytes_up, ssl_bytes_down, non_ssl_bytes_up, non_ssl_bytes_down
         }
 
         if (tcpStream.ssl.tls_client || tcpStream.ssl.tls_server) {
           timePoints[time][1] += tcpStream.traffic[time].up.bytes;
-          timePoints[time][2] += tcpStream.traffic[time].down.bytes;
+          timePoints[time][2] -= tcpStream.traffic[time].down.bytes;
         } else {
           timePoints[time][3] += tcpStream.traffic[time].up.bytes;
-          timePoints[time][4] += tcpStream.traffic[time].down.bytes;
+          timePoints[time][4] -= tcpStream.traffic[time].down.bytes;
         }
       })
     });
-    let seriesData = this.normalizeTimeSeries(timePoints, 5);
+    let seriesData = [];
+    Object.keys(timePoints).forEach(x => seriesData.push(timePoints[x]));
 
-
-    // todo: flatten out adjacent points with separate helper function in common/Helpers.js
-
-    let columns = ["time", "ssl_bytes_up", "ssl_bytes_down", "non_ssl_bytes_up", "non_ssl_bytes_down"];
+    let columns = ["index", "ssl_bytes_up", "ssl_bytes_down", "non_ssl_bytes_up", "non_ssl_bytes_down"];
     let series = new TimeSeries({
       "name": "tcp_traffic",
       "columns": columns,
       "points": seriesData
     });
-    console.log(columns);
-    console.log(seriesData);
 
     return {
       series,
@@ -135,6 +102,10 @@ export default class TCPGraph extends React.Component {
 
   render() {
     const legendCategories = this.state.columns.map(d => ({key: d, label: d}));
+    let range = this.state.series.crop(this.state.timerange);
+    let max = Math.max(range.max('ssl_bytes_up') || 500, range.max('non_ssl_bytes_up') || 500);
+    let min = Math.min(range.min('ssl_bytes_down') || 500, range.min('non_ssl_bytes_down') || 500);
+    let axis_height = Math.max(max, Math.abs(min));
 
     return (
       <div>
@@ -151,29 +122,61 @@ export default class TCPGraph extends React.Component {
               enablePanZoom={true}
               width={1080}
             >
-              <ChartRow height="350">
-                <YAxis
-                  id="y"
-                  min={-1000}
-                  max={1000}
-                  width="60"
-                  type="linear"/>
+              <ChartRow height="450">
+                <YAxis id="net-traffic-volume" label="Net Traffic (B)" classed="traffic-in"
+                       min={-axis_height} max={axis_height} width="70" type="linear"/>
                 <Charts>
-                  <AreaChart
-                    stack={true}
-                    axis="y"
+                  <BarChart
+                    axis="net-traffic-volume"
+                    spacing={3}
+                    columns={["ssl_bytes_up", "ssl_bytes_down", "non_ssl_bytes_up", "non_ssl_bytes_down"]}
                     style={this.state.style}
-                    series={this.state.series}
-                    columns={{up: ["ssl_bytes_up", "non_ssl_bytes_up"], down: ["ssl_bytes_down", "non_ssl_bytes_down"]}}
-                    fillOpacity={0.4}
-                    interpolation="curveLinear" />
+                    series={this.state.series} />
                 </Charts>
               </ChartRow>
             </ChartContainer>
           </Column>
         </Row>
       </div>
-
     );
+
+    // return (
+    //   <div>
+    //     <Row>
+    //       <Column small={12}>
+    //         <Legend categories={legendCategories} style={this.state.style} type="dot"/>
+    //       </Column>
+    //     </Row>
+    //     <Row>
+    //       <Column small={12}>
+    //         <ChartContainer
+    //           onTimeRangeChanged={(timerange) => this.setState({timerange})}
+    //           timeRange={this.state.timerange}
+    //           enablePanZoom={true}
+    //           width={1080}
+    //         >
+    //           <ChartRow height="350">
+    //             <YAxis
+    //               id="y"
+    //               min={-1000}
+    //               max={1000}
+    //               width="60"
+    //               type="linear"/>
+    //             <Charts>
+    //               <AreaChart
+    //                 stack={true}
+    //                 axis="y"
+    //                 style={this.state.style}
+    //                 series={this.state.series}
+    //                 columns={{up: ["ssl_bytes_up", "non_ssl_bytes_up"], down: ["ssl_bytes_down", "non_ssl_bytes_down"]}}
+    //                 fillOpacity={0.4}
+    //                 interpolation="curveLinear" />
+    //             </Charts>
+    //           </ChartRow>
+    //         </ChartContainer>
+    //       </Column>
+    //     </Row>
+    //   </div>
+    // );
   }
 }

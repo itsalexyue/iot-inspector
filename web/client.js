@@ -10,10 +10,18 @@ import TCPInterface from './features/visualizations/tcp/TCPInterface';
 import TCPStreamInterface from './features/visualizations/tcp_stream/TCPStreamInterface';
 import DNSInterface from './features/visualizations/dns/DNSInterface';
 
+const Home = (props) => {
+  return (
+    <div>
+      Select an item from the list to view data.
+    </div>
+  );
+};
 
 render((
   <Router history={browserHistory}>
     <Route path="/" component={GlobalLayout}>
+      <IndexRoute component={Home} />
       <Route path="tcp" component={TCPInterface} />
       <Route path="tcp/view/:id" component={TCPInterface} />
       <Route path="dns" component={DNSInterface} />

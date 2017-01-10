@@ -19,7 +19,6 @@
     "hbs": "~4.0.1",
     "mongodb": "^2.2.12",
     "morgan": "~1.7.0",
-    "node-sass-middleware": "0.9.8",
     "pondjs": "^0.7.2",
     "pug": "^2.0.0-beta6",
     "react": "^15.4.1",
@@ -38,8 +37,6 @@
     "babel-preset-stage-0": "^6.16.0",
     "html-webpack-plugin": "^2.24.1",
     "json-loader": "^0.5.4",
-    "node-sass": "^3.13.0",
-    "sass-loader": "^4.0.2",
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.8.4"
   }

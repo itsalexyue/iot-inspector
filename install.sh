@@ -103,6 +103,8 @@ sudo apt-get install -y nodejs
 cd web && npm install
 cd "$parent_path"
 
+bash /home/pi/iot-inspector/start.sh
+
 
 # update-rc.d mongod enable
 

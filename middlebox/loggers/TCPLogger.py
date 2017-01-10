@@ -28,6 +28,10 @@ class TCPLogger:
             tcp_key = tcp_key_a
             transmission_direction = 'up'
 
+            host = Loggers.get_instance('DNS').get_hostname(pkt[IP].dst)
+            if not host:
+                Loggers.get_instance('DNS').get_hostname(pkt[IP].src)
+
             self.tcp_streams[tcp_key] = {
                 'src': pkt[IP].src,
                 'sport': pkt[TCP].sport,
@@ -38,7 +42,7 @@ class TCPLogger:
                     'server': None
                 },
                 'mac': pkt[Ether].src,
-                'host': Loggers.get_instance('DNS').get_hostname(pkt[IP].dst),
+                'host': host,
                 'time': {
                     'start': pkt.time
                 },

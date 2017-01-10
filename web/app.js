@@ -25,12 +25,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(require('node-sass-middleware')({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  indentedSyntax: true,
-  sourceMap: true
-}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(require('webpack-dev-middleware')(webpack(config), {
   noInfo: true,
