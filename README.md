@@ -21,12 +21,11 @@ $ sudo ./start.sh
 ```
 
 This will start capturing packets on the wireless interface of the Raspberry Pi and saving pcap files to `/home`.
-It will also start python backend code that parses the pcap files and stores the
+It also starts Python backend code that parses the pcap files and stores
 processed data in a Mongo database. Finally, it starts a node.js webserver to display the data with a
-user friendly interface.
+user-friendly interface.
 
-You can then associate IoT devices with the WiFi network "Pi3-AP" and all traffic to/from
-those devices will be recorded.  The WiFi password is "strawberry".
+To analyze IoT devices, associate IoT devices with the WiFi network "Pi3-AP".  The WiFi password is "strawberry".
 
 Note that this password is public, so the WiFi network should be considered insecure. **This
 tool is for research purposes only and should not be used to transmit sensitive data.**
