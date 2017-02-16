@@ -25,7 +25,7 @@ It also starts Python backend code that parses the pcap files and stores
 processed data in a Mongo database. Finally, it starts a node.js webserver to display the data with a
 user-friendly interface.
 
-To analyze IoT devices, associate IoT devices with the WiFi network "Pi3-AP".  The WiFi password is "strawberry".
+To analyze IoT devices, associate IoT devices with the WiFi network "Pi3-AP".  The WiFi password is "raspberry".
 
 Note that this password is public, so the WiFi network should be considered insecure. **This
 tool is for research purposes only and should not be used to transmit sensitive data.**
@@ -37,7 +37,7 @@ Raspberry Pi, run the command
 $ startx
 ```
 
-This  will launch the Raspberry Pi's  GUI desktop. Start the
+This  will launch the Raspberry Pi's  GUI desktop. Then start the
 default browser and type "localhost:3000" in the address bar.
 
 
