@@ -35,7 +35,7 @@ The web interface can then be accessed on localhost:3000. If you want to view it
 Raspberry Pi, run the command
 
 ```
-startx
+$ startx
 ```
 
 This  will launch the Raspberry Pi's  GUI desktop. Start the
