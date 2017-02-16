@@ -28,7 +28,7 @@ user-friendly interface.
 To analyze IoT devices, associate IoT devices with the WiFi network "Pi3-AP".  The WiFi password is "raspberry".
 
 Note that this password is public, so the WiFi network should be considered insecure and accessible to any WiFi device in the vicinity. **This
-tool is for research purposes only and should not be used to transmit sensitive data**
+tool is for research purposes only and should not be used to transmit sensitive data.**
 
 The web interface can then be accessed on localhost:3000. If you want to view it directly on the
 Raspberry Pi, run the command
