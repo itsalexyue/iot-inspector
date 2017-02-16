@@ -25,7 +25,7 @@ It will also start python backend code that parses the pcap files and stores the
 processed data in a Mongo database. Finally, it starts a node.js webserver to display the data with a
 user friendly interface.
 
-You can then associate IoT devices with the WiFi network "Pi3-AP" and all traffic to/frmo
+You can then associate IoT devices with the WiFi network "Pi3-AP" and all traffic to/from
 those devices will be recorded.  The WiFi password is "strawberry".
 
 Note that this password is public, so the WiFi network should be considered insecure. **This
