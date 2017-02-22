@@ -37,7 +37,7 @@ This will prepare the configure and start the WiFi network and download the requ
 
 ## Packet capture instructions
 
-From the `iot-inspector` directory, execute the following command
+From the `iot-inspector/www` directory, execute the following command
 
 ```
 $ sudo ./start.sh
