@@ -12,12 +12,9 @@ Connect the Raspberry Pi to the Internet using a wired Ethernet connection.  You
 Execute the following commands from the terminal of the Raspberry Pi:
 
 ```
-$ mkdir /home/pi
 $ cd /home/pi
 $ git clone https://github.com/NoahApthorpe/iot-inspector
 $ cd iot-inspector
-$ chmod 744 install.sh
-$ chmod 744 start.sh
 ```
 
 #### Change WiFI SSID and Password
