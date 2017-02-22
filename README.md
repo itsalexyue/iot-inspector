@@ -37,7 +37,7 @@ This will prepare the configure and start the WiFi network and download the requ
 
 ## Usage Instructions
 
-Execute the following commands to start capturing packets and displaying traffic information in a web interface:
+Execute the following commands from the Raspberry Pi terminal to start capturing packets and displaying traffic information in a web interface:
 
 ```
 $ cd /home/iot-inspector/www
