@@ -1,7 +1,7 @@
 # IoT-Inspector
 
 ## System requirements
-The IoT Inspector was developed and tested for use on a Raspberry Pi v3.  It should work on any Linux machine that has both a WiFi interface that can be used as an access point and a wired connection to the internet.
+The IoT Inspector was developed and tested for use on a Raspberry Pi v3.  It should also work on any Linux machine that has both a WiFi interface that can be used as an access point and a wired connection to the internet.
 
 ## Install instructions
 
