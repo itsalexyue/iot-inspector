@@ -35,12 +35,13 @@ $ sudo ./install.sh
 ```
 This will prepare the configure and start the WiFi network and download the required packages for packet capture and analysis.
 
-## Packet capture instructions
+## Usage Instructions
 
-From the `iot-inspector/www` directory, execute the following command
+Execute the following commands to start capturing packets and displaying traffic information in a web interface:
 
 ```
-$ sudo ./start.sh
+$ cd /home/iot-inspector/www
+$ sudo ../start.sh
 ```
 
 This will start capturing packets on the wireless interface of the Raspberry Pi and saving pcap files to `/home`.
