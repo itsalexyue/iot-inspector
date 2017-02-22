@@ -101,7 +101,7 @@ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
 cd web && npm install
-cd "$parent_path"
+# cd "$parent_path"
 
 bash /home/pi/iot-inspector/start.sh
 
