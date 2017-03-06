@@ -55,8 +55,3 @@ $ startx
 
 This  will launch the Raspberry Pi's  GUI desktop. Then start the
 default browser and type "localhost:3000" in the address bar.
-
-
-
-
-
