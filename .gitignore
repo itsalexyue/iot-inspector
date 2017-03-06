@@ -137,3 +137,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Python
+*.pyc
+
+# Emacs
+\#*

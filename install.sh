@@ -33,18 +33,20 @@ cd "$parent_path"
 # Update the package manager and install base packages
 apt-get update --assume-yes
 # apt-get upgrade --assume-yes
+apt-get install --assume-yes emacs
+apt-get install --assume-yes vim
 
 ### STEP 1: Wi-Fi Setup ###
 apt-get install --assume-yes hostapd dnsmasq
 
-mv ./config/dhcpcd.conf /etc/dhcpcd.conf
-mv ./config/interfaces /etc/network/interfaces
+cp ./config/dhcpcd.conf /etc/dhcpcd.conf
+cp ./config/interfaces /etc/network/interfaces
 service dhcpcd restart
 
-mv ./config/hostapd.conf /etc/hostapd/hostapd.conf
-mv ./config/hostapd /etc/default/hostapd
+cp ./config/hostapd.conf /etc/hostapd/hostapd.conf
+cp ./config/hostapd /etc/default/hostapd
 
-mv ./config/dnsmasq.conf /etc/dnsmasq.conf
+cp ./config/dnsmasq.conf /etc/dnsmasq.conf
 
 echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
@@ -103,7 +105,7 @@ sudo apt-get install -y nodejs
 cd web && npm install
 # cd "$parent_path"
 
-bash /home/pi/iot-inspector/start.sh
+#bash /home/pi/iot-inspector/start.sh
 
 
 # update-rc.d mongod enable
